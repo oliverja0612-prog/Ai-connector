@@ -33,6 +33,7 @@ jobs:
           geode sdk install $sdkPath
           $env:GEODE_SDK = $sdkPath
           geode sdk update 5.9.0
+          geode sdk install-binaries
           "GEODE_SDK=$sdkPath" >> $env:GITHUB_ENV
           "GEODE_DONT_INSTALL_MODS=ON" >> $env:GITHUB_ENV
 
