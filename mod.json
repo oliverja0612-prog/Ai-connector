@@ -5,7 +5,7 @@
   },
   "id": "oliver.ai-connector",
   "name": "AI Level Connector",
-  "version": "v1.6.0",
+  "version": "v1.6.1",
   "developer": "Oliver",
   "description": "Local AI tools for editing, playtesting, and saving Geometry Dash levels.",
   "tags": [

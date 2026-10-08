@@ -26,6 +26,9 @@ jobs:
       - name: Set up Geode SDK
         shell: pwsh
         run: |
+          $profilePath = Join-Path $env:GITHUB_WORKSPACE "dummy-profile"
+          New-Item -ItemType Directory -Path $profilePath | Out-Null
+          geode profile add --name ci "$profilePath/GeometryDash.exe" win
           $sdkPath = Join-Path $env:GITHUB_WORKSPACE "geode-sdk"
           geode sdk install $sdkPath
           $env:GEODE_SDK = $sdkPath
