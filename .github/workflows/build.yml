@@ -1,0 +1,44 @@
+name: Build mod
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Geode CLI
+        uses: geode-sdk/cli/.github/actions/setup@main
+        with:
+          version: latest
+
+      - name: Set up Geode SDK
+        shell: pwsh
+        run: |
+          $sdkPath = Join-Path $env:GITHUB_WORKSPACE "geode-sdk"
+          geode sdk install $sdkPath
+          $env:GEODE_SDK = $sdkPath
+          geode sdk update 5.9.0
+          "GEODE_SDK=$sdkPath" >> $env:GITHUB_ENV
+          "GEODE_DONT_INSTALL_MODS=ON" >> $env:GITHUB_ENV
+
+      - name: Build package
+        run: geode build --config RelWithDebInfo -- -DGEODE_DONT_INSTALL_MODS=ON
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AI-Level-Connector
+          path: build/oliver.ai-connector.geode
+          if-no-files-found: error
